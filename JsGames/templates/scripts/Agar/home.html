@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% load static %}{% static 'Agar/MainStyle.css' %}">
+	<title>Agar home</title>
+</head>
+<body>
+	<form method="POST">
+		{% csrf_token %}
+     	<div>
+     		<input type="text" name="HostId"/>
+     	</div>
+	    <div>
+	    	<button type="sumbit">Submit</button>
+	    </div>
+	</form>
+
+</body>
+</html>
