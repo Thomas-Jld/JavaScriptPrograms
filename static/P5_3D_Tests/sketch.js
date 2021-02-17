@@ -10,32 +10,35 @@ let centerY = 0;
 let centerZ = 0;
 
 let size = 0.4;
-let nb = 5;
+let nbx = 4;
+let nby = 4;
+let nbz = 4;
 
 let fps;
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
-  for (let y = -50; y < 51; y += 100 / (nb - 1)) {
-    for (let x = -50; x < 51; x += 100 / (nb - 1)) {
-      lines.push(new SegmentedLine(x, x, y, y, -50, 50, 0, size, size, nb));
+  for (let y = -50; y < 51; y += 100 / (nby - 1)) {
+    for (let x = -50; x < 51; x += 100 / (nbx - 1)) {
+      lines.push(new SegmentedLine(x, x, y, y, -50, 50, 0, size, size, nbz));
     }
-    for (let z = -50; z < 51; z += 100 / (nb - 1)) {
-      lines.push(new SegmentedLine(-50, 50, y, y, z, z, 0, size, size, nb));
+    for (let z = -50; z < 51; z += 100 / (nbz - 1)) {
+      lines.push(new SegmentedLine(-50, 50, y, y, z, z, 0, size, size, nbx));
     }
   }
 
-  for (let x = -50; x < 51; x += 100 / (nb - 1)) {
-    for (let z = -50; z < 51; z += 100 / (nb - 1)) {
-      lines.push(new SegmentedLine(x, x, -50, 50, z, z, 0, size, size, nb));
+  for (let x = -50; x < 51; x += 100 / (nbx - 1)) {
+    for (let z = -50; z < 51; z += 100 / (nbz - 1)) {
+      lines.push(new SegmentedLine(x, x, -50, 50, z, z, 0, size, size, nby));
     }
   }
   frameRate(60);
   pixelDensity(1.5);
   angleMode(RADIANS);
 
-  centers.push(new CenterOfMass(1, 0, 0, 0, 5, 100))
-  centers.push(new CenterOfMass(90, 60, 0, 0, 5, 100))
+  centers.push(new CenterOfMass(0, 0, 0, 0, 5, 100))
+  centers.push(new CenterOfMass(100, 0, 0, 0, 5, 100))
+  // centers.push(new CenterOfMass(-100, 0, 0, 0, 5, 100))
 }
 
 function draw() {
@@ -58,13 +61,14 @@ function draw() {
   Object.keys(points).forEach(pos => {
     point = points[pos];
     point.show();
+    // pointConvergence(point, pos, 0.1);
     if (floor(frameCount / 50) % 2 == 0) {
       pointConvergence(point, pos, 0.1);
     } else {
       explosion(point, pos, 0.08);
     }
-    //sphereConvergence(point);
-    //vortex(point);
+    // sphereConvergence(point);
+    vortex(point);
 
     //points[pos].y += 2*cos(0.1*frameCount+ points[pos].z*0.02);
   });
@@ -90,6 +94,9 @@ function Fps() {
   fps = frameCount * 1000 / millis();
   return fps;
 }
+
+
+
 
 function sphereConvergence(point) {
   let dist = sqrt(int(point.x) ** 2 + int(point.y) ** 2 + int(point.z) ** 2);
@@ -136,13 +143,7 @@ function explosion(point, pos, rate) {
 }
 
 function vortex(point) {
-  let r = sqrt(float(point.x) ** 2 + float(point.y) ** 2);
-  let theta = atan(float(point.y) / float(point.x));
-  if (point.x <= 0 && point.y >= 0) {
-    theta += PI;
-  } else if (point.x >= 0 && point.y >= 0) {
-    theta += PI;
-  }
-  point.x = r * cos(theta + 0.02);
-  point.y = r * sin(theta + 0.02);
+  let theta = 0.1;
+  point.x =  point.x * cos(theta) + point.y * sin(theta);
+  point.y = -point.x * sin(theta) + point.y * cos(theta);
 }

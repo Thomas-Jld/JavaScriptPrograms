@@ -75,4 +75,5 @@ function keyPressed(){
     yOffset--;
     cubeSize = (height-offset)/zoom;
   }
+  console.log(keyCode);
 }

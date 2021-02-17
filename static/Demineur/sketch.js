@@ -1,12 +1,12 @@
 let grid = [];
-let size = 16;
+let size = 32;
 let step;
 let fl = false;
 let pfl = false;
 let offset = 50;
 let script;
 let score = 0;
-let proba = 0.9;
+let proba = 0.7;
 
 let allGrids = [];
 let allClicks = [];

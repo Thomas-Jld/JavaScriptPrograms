@@ -22,7 +22,7 @@ function displayGame() {
         fill(50);
       }
       }
-      rect(i * step, j * step + offset, step, step,10);
+      rect(i * step, j * step + offset, step, step, 160/size);
     }
   }
 }
